@@ -14,4 +14,4 @@ COPY --from=build /app/build/libs/*.jar /app/spring-roomescape-payment-0.0.1-SNA
 
 EXPOSE 8080
 ENTRYPOINT ["java"]
-CMD ["-jar", "spring-roomescape-payment-0.0.1-SNAPSHOT.jar.jar"]
+CMD ["-jar", "spring-roomescape-payment-0.0.1-SNAPSHOT.jar"]
