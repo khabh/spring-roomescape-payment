@@ -34,15 +34,15 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
 
-      - name: Build with Gradle Wrapper
-        run: ./gradlew clean build
+      - name: Test with Gradle Wrapper
+        run: ./gradlew test
 
       # docker build & push to production
       - name: Docker build & push to prod
         if: contains(github.ref, 'main')
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -f Dockerfile-dev -t ${{ secrets.DOCKER_USERNAME }}/docker-test-prod .
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/docker-test-prod .
           docker push ${{ secrets.DOCKER_USERNAME }}/docker-test-prod
 
       # docker build & push to develop
@@ -50,5 +50,5 @@ jobs:
         if: contains(github.ref, 'develop')
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -f Dockerfile-dev -t ${{ secrets.DOCKER_USERNAME }}/docker-test-dev .
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/docker-test-dev .
           docker push ${{ secrets.DOCKER_USERNAME }}/docker-test-dev

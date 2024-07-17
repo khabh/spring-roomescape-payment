@@ -1,7 +1,17 @@
-FROM amazoncorretto:17
+FROM gradle:7.6.1-jdk17 AS build
 
-ARG JAR_FILE=./build/libs/spring-roomescape-payment-0.0.1-SNAPSHOT.jar
+WORKDIR /app
 
-COPY ${JAR_FILE} app.jar
+COPY . /app
 
-ENTRYPOINT ["java","-jar","/app.jar"]
+RUN gradle clean build -x test
+
+FROM openjdk:17-jdk-slim
+
+WORKDIR /app
+
+COPY --from=build /app/build/libs/*.jar /app/spring-roomescape-payment-0.0.1-SNAPSHOT.jar
+
+EXPOSE 8080
+ENTRYPOINT ["java"]
+CMD ["-jar", "spring-roomescape-payment-0.0.1-SNAPSHOT.jar.jar"]
