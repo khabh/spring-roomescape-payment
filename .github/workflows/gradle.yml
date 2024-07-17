@@ -50,7 +50,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: $${{ secrets.DOCKER_USERNAME }}/docker-test-prod
+          tags: ${{ secrets.DOCKER_USERNAME }}/docker-test-prod
           platforms: linux/amd64,linux/arm64,windows/amd64
 
 #
