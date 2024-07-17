@@ -47,6 +47,26 @@ jobs:
           platforms: linux/amd64,linux/arm64
 
 
+  deploy-to-ec2:
+
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        id: deploy
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PEM_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            sudo docker rm -f $(docker ps -qa)
+            sudo docker pull haengdong/docker-test-prod
+            docker-compose up -d
+            docker image prune -f
+
       # docker build & push to production
 #      - name: Docker build & push to prod
 #        if: contains(github.ref, 'main')
