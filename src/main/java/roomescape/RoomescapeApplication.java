@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RoomescapeApplication {
 
     public static void main(String[] args) {
-        System.out.println("HELLLLLO");
+        System.out.println("BYEEEEEEEEEEEEE");
         SpringApplication.run(RoomescapeApplication.class, args);
     }
 
