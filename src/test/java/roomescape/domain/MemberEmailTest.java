@@ -24,6 +24,6 @@ class MemberEmailTest {
     @ValueSource(strings = {"12@ad@bbb.com", "aa.aa@aa.com"})
     void create_Fail(String input) {
         assertThatThrownBy(() -> new MemberEmail(input))
-                .isInstanceOf(NullPointerException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
