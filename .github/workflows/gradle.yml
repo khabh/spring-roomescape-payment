@@ -44,7 +44,7 @@ jobs:
         with:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/docker-test-prod
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/arm64
 
 
   deploy-to-ec2:
