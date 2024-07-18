@@ -47,24 +47,37 @@ jobs:
           platforms: linux/arm64
 
 
-  deploy-to-ec2:
+  #  deploy-to-ec2:
+  #
+  #    needs: build
+  #    runs-on: self-hosted
+  #
+  #    steps:
+  #      - name: Deploy to server
+  #        uses: appleboy/ssh-action@master
+  #        id: deploy
+  #        with:
+  #          host: ${{ secrets.SSH_HOST }}
+  #          username: ubuntu
+  #          key: ${{ secrets.SSH_PEM_KEY }}
+  #          envs: GITHUB_SHA
+  #          script: |
+  #            sudo docker rm -f $(docker ps -qa)
+  #            sudo docker pull haengdong/docker-test-prod
+  #            sudo docker run -p 80:8080 --name gamja haengdong/docker-test-prod
 
+  deploy:
     needs: build
-    runs-on: ubuntu-latest
-
+    runs-on: self-hosted
     steps:
-      - name: Deploy to server
-        uses: appleboy/ssh-action@master
-        id: deploy
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ubuntu
-          key: ${{ secrets.SSH_PEM_KEY }}
-          envs: GITHUB_SHA
-          script: |
-            sudo docker rm -f $(docker ps -qa)
-            sudo docker pull haengdong/docker-test-prod
-            sudo docker run -p 80:8080 --name gamja haengdong/docker-test-prod
+      - name: Docker remove
+        run: sudo docker rm -f $(docker ps -qa)
+      - name: Docker Image pull
+        run: sudo docker pull haengdong/docker-test-prod
+      - name: Docker run
+        run: sudo docker run -p 80:8080 --name gamja haengdong/docker-test-prod
+      
+      
       #            docker-compose up -d
       #            docker image prune -f
 
